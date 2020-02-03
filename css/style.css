@@ -1,0 +1,52 @@
+*{
+  box-sizing: border-box;
+}
+
+
+body{
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  background-image: url('https://img.rawpixel.com/s3fs-private/rawpixel_images/website_content/pdflowerset16-gloy-03-leaves.png?auto=&bg=transparent&con=3&cs=srgb&dpr=1&fm=png&ixlib=php-3.1.0&mark=rawpixel-watermark.png&markalpha=90&markpad=13&markscale=10&markx=25&q=75&usm=15&vib=3&w=1200&s=22066eda8f50c01f8572956aac48881d');
+  background-repeat: no-repeat;
+}
+
+td {
+	border:  2px double #ced6e0;
+	height:  80px;
+	width:  80px;
+	text-align:  center;
+	vertical-align:  middle;
+	font-family:  "Comic Sans MS", cursive, sans-serif;
+	font-size:  50px;
+	cursor: pointer;
+}
+
+table {
+	/* border-collapse: collapse; */
+	position: absolute;
+	left:50%;
+	margin-left: -155px;
+	top: 50px;
+}
+
+caption{
+  font-size: 200%;
+  margin-bottom: 50px;
+}
+
+
+
+.endgame {
+  display: none;
+  width: 150px;
+  top: 100px;
+  background-color: rgba(178, 190, 195,1.0);
+  position: absolute;
+  left: 50%;
+  margin-left: -100px;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  text-align: center;
+  border-radius: 5px;
+  color: white;
+  font-size: 2em;
+}
