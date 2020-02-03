@@ -1,74 +1,95 @@
-//Declar mark ' X ' and ' O '
-const xPlayer = 'O';
-const oPlayer = 'X';
-
+//Call ===> select all inside class ( cell )
+const cells = Array.from(document.querySelectorAll(".cell"));
 //Create Array for win
-const winning = [
-	[0, 1, 2],
-	[3, 4, 5],
-	[6, 7, 8],
-	[0, 3, 6],
-	[1, 4, 7],
-	[2, 5, 8],
-	[0, 4, 8],
-	[6, 4, 2]
-]
-var board;
-//Call ===> select all inside class ( cell ) 
-const cells = document.querySelectorAll('.cell');
-//calling
-startGame();
+const winner =[
+[1,2,3],
+[4,5,6],
+[7,8,9],
+[1,5,9],
+[3,5,7],
+[1,4,7],
+[2,5,8],
+[3,6,9]
+];
 
-//The end Game 
-function startGame() {
-  document.querySelector(".endgame").style.display = "none";
-//create Array from 9 elem
-  board = Array.from(Array(9).keys());
-  //clear board after win 
-	for (var i = 0; i < cells.length; i++) {
-		cells[i].innerText = ''; //clear 
-		/* cells[i].style.removeProperty('background-color'); */
-		cells[i].addEventListener('click', turnClick, false); //call click
-	}
+//Declar Varible
+let firstPlayer = [];
+let secondPlayer = [];
+let count = 0;
+
+
+//Start function
+function check(array){
+  let finalResult = false;
+  //Create forLoop 
+  for(let item of winner){
+    let res = item.every(val => array.indexOf(val) !== -1);
+    if(res){
+      finalResult = true;
+      break;
+    }
+  }
+  return finalResult;
 }
 
-//Creat function turnClick
-function turnClick(square) {
-  // GENARATE  target cell number using humen player click event
-	if (typeof board[square.target.id] == 'number') {
-  //turn ==> console.log
-		turn(square.target.id, xPlayer)
-	
+//Create function 
+function winnerpleyr(p){
+//Create the HTML element ===> "div"
+  const modal = document.createElement("div");
+//Create a Text Node with the specified text. 
+  const player = document.createTextNode(p);
+  const replay = document.createElement("button");
+//returns
+  modal.classList.add("winner");
+
+  modal.appendChild(player);
+  replay.appendChild(document.createTextNode("Replay"));
+  // replay.setAttribute("onclick","rep();");
+  replay.onclick = function() { 
+    rep() 
+  };
+  modal.appendChild(replay);
+  document.body.appendChild(modal);
 }
 
-//Create function for ' O ' Player
-function turn(squarePlayer, player) { 
-	board[squarePlayer] = player; // squere when SquerePlayer click
-	document.getElementById(squarePlayer).innerText = player;
-	let gameWon = checkWin(board, player) //won Player 
-	
+//Create function 
+function tie(){
+  if(this.classList == "cell"){
+    count++;
+    if(count%2 !== 0){
+      this.classList.add("x");
+      firstPlayer.push(Number(this.dataset.index));
+      if(check(firstPlayer)){        
+        winnerpleyr("Congrats Win :)");
+        return true;
+      }
+    } else{
+      this.classList.add("o");
+      secondPlayer.push(Number(this.dataset.index));
+      if(check(secondPlayer)){
+        winnerpleyr("Congrats Win :)");
+        return true;
+      }
+    }
+    if(count === 9){
+      winnerpleyr("Tie :(");
+    }
+  }
 }
 
-
-//Take ARRAY AND ADD THE INDEX TOO THE ARRAY, IDENTIFY EVERY INDEX OF PLAYER CLICKED
-function checkWin(board, player) {
-//check ===> (t= totalVal, e= currentVal, i= currentIndex)
-  let plays = board.reduce((t, e, i) =>
-  //initVal
-    (e === player) ? t.concat(i) : t, []);
-    
-  //SET GAME WON NULL DROW NO WINS
-  let gameWon = null;
-  
-  //Check game is won
-	for (let [index, win] of winning.entries()) {
-  //Check if player click   
-		if (win.every(elem => plays.indexOf(elem) > -1)) {
-  //Player won and win index
-			gameWon = {index: index, player: player};
-			break;
-		}
-	}
-	return gameWon;
+//
+function rep(){
+  const win = document.querySelector(".winner");
+  // cells
+  firstPlayer = [];
+  secondPlayer = [];
+  count = 0;
+  win.remove();
+  [].forEach.call(cells, function(elem) {
+    elem.classList.remove("x");
+	  elem.classList.remove("o");
+  });
 }
-
+ 
+//
+cells.forEach(cell => cell.addEventListener("click", tie));
